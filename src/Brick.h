@@ -1,20 +1,23 @@
 
 #ifndef BRICK_H
 #define BRICK_H
-//#include "Pixel.h"
+#include "Pixel.h"
+#include "Table.h"
 
 class Brick{
 	static unsigned int count;
-	int id;
-	int bx,by,ex,ey;
+	unsigned int id,bx,by,ex,ey,size;
 public:
-	Brick( const int& b_x, const int& b_x,
-	       const int& e_x, const int& e_y ) :;
+	Brick(unsigned const int& _bx,unsigned const int& _by,
+	      unsigned const int& _ex,unsigned const int& _ey,
+	      unsigned const int& _size )
+	      : id(count++), size(_size),
+	      bx(_bx), by(_by), ex(_ex), ey(_ey) {}
 	~Brick();
-	bool& getBusy();
-	Brick* getBrick();
-	void set(const Brick* ptrBrck);
-	Pixel &operator=(const Pixel& other);
+	unsigned int& getSize();
+	unsigned int& getId();
+	void stepUp( Table& _table );
+	void stepDown( Table& _table );
 };
 #ifndef BRICK_COUNT
 #define BRICK_COUNT
