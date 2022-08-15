@@ -1,14 +1,14 @@
 #include "Pixel.h"
 
-Pixel::Pixel(const Brick* ptrBrck)
+Pixel::Pixel(const Brck* ptrBrck)
 {
-	ptrBrick = ptrBrck;
+	ptrBrck = ptrBrck;
 	busy = true;
 }
 
 Pixel::~Pixel()
 {
-	ptrBrick = nullptr;
+	this->empty();
 }
 
 bool& Pixel::getBusy()
@@ -16,21 +16,26 @@ bool& Pixel::getBusy()
 	return busy;
 }
 
-Brick* Pixel::getBrick()
+Brck* Pixel::getBrck()
 {
-	return ptrBrick;
+	return ptrBrck;
 }
 
-void Pixel::set(const Brick* ptrBrck)
+void Pixel::set(const Brck* ptrBrck)
 {
-	ptrBrick = ptrBrck;
+	ptrBrck = ptrBrck;
 	busy = true;
 }
 
-Pixel Pixel::&operator=(const Pixel& other)
+Pixel& Pixel::&operator=(const Pixel& other)
 {
-	this->ptrBrick = other.ptrBrick;
-	this->ptrBrick = other.ptrBrick;
+	this->ptrBrck = other.ptrBrck;
+	this->ptrBrck = other.ptrBrck;
 	return this;
 }
 
+void Pixel::empty()
+{
+	ptrBrck = nullptr;
+	busy = false;
+}

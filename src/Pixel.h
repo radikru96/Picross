@@ -1,16 +1,17 @@
 #ifndef PIXEL_H
 #define PIXEL_H
-#include "Brick.h"
+#include "Brck.h"
 
 class Pixel{
-	Brick* ptrBrick = nullptr;
+	Brck* ptrBrck = nullptr;
 	bool busy = false;
 public:
-	Pixel(const Brick* ptrBrck);
+	Pixel(const Brck* ptrBrck);
 	~Pixel();
 	bool& getBusy();
-	Brick* getBrick();
-	void set(const Brick* ptrBrck);
+	Brck* getBrck();
+	void set(const Brck* ptrBrck);
 	Pixel &operator=(const Pixel& other);
+	void empty();
 };
 #endif

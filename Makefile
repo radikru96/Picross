@@ -1,6 +1,6 @@
 NAME = bin/Picross
 
-SRCS =	src/main.cpp src/Picross.cpp
+SRCS = src/Brck.cpp src/Brck.h src/main.cpp src/Picross.cpp src/Picross.h src/Pixel.cpp src/Pixel.h src/Table.cpp src/Table.h
 
 HEADER = src/Picross.h
 
