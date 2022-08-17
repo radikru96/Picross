@@ -3,50 +3,38 @@
 //static unsigned int count;
 //unsigned int id,x,by,ey,size;
 
-Brck::Brck(	Table *_table,
-				unsigned const int &_size,	unsigned const int &_x,
+Brck::Brck(		unsigned const int &_size,	unsigned const int &_x,
 				unsigned const int &_by,	unsigned const int &_ey )
 {
 	id = count++;
-	table = _table;
 	size = _size;
 	x = _x;
 	by = _by;
 	ey = _ey;
-	for( unsigned int y = by; y <= ey; y++ )
-	{
-		table->getPix( x, y )->set( this* );
-	}
-}
-Brck::~Brck()
-{
-	for( unsigned int y = by; y <= ey; y++ )
-	{
-		table->getPix( x, y )->empty();
-	}
-	table = nullptr;
 }
 
-unsigned int& Brck::getSize() : const
+unsigned int& Brck::getSize()
 {
 	return size;
 }
 
-unsigned int& Brck::getId() : const
+unsigned int& Brck::getId()
 {
 	return id;
 }
 
-void Brck::stepUp()
+
+unsigned int &Brck::getX()
 {
-	table->getPix( x, ey+1 )->set(this);
-	table->getPix( x, by )->empty();
-	ey++; by++;
+	return x;
 }
 
-void Brck::stepDown()
+unsigned int &Brck::getBy()
 {
-	table->getPix( x, by-1 )->set(this);
-	table->getPix( x, ey )->empty();
-	ey--; by--;
+	return by;
+}
+
+unsigned int &Brck::getEy()
+{
+	return ey;
 }
