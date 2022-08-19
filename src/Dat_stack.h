@@ -3,17 +3,17 @@
 
 class Dat_stack
 {
-    int *datStack;
-    int size;
+    unsigned int *datStack;
+    unsigned int size;
     
 public:
     Dat_stack();
-    Dat_stack(const int &_size);
+    Dat_stack(const unsigned int &_size);
     ~Dat_stack();
-    int &get_size();
-    int &get_data(const int &index);
-    void set_data(const int &index, const int &data);
-    void set_size(const int &_size);
+    unsigned int &get_size();
+    unsigned int &get_data(const unsigned int &index);
+    void set_data(const unsigned int &index, const unsigned int &data);
+    void set_size(const unsigned int &_size);
 };
 
 #endif

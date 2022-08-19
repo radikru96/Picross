@@ -3,11 +3,13 @@
 
 class Table {
 	bool** arr;
-	const unsigned int x;
-	const unsigned int y;
+	unsigned int x;
+	unsigned int y;
 public:
+	Table(){}
 	Table(const unsigned int& _x, const unsigned int& _y);
 	~Table();
+	void init(const unsigned int& _x, const unsigned int& _y);
 	bool& getPix( const unsigned int& _x, const unsigned int& _y );  
 };
 #endif

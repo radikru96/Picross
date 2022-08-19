@@ -6,10 +6,10 @@ Dat_stack::Dat_stack()
     datStack = nullptr;
 }
 
-Dat_stack::Dat_stack(const int &_size)
+Dat_stack::Dat_stack(const unsigned int &_size)
 {
     size = _size;
-    datStack = new int [size];
+    datStack = new unsigned int [size];
 }
 
 Dat_stack::~Dat_stack()
@@ -21,27 +21,27 @@ Dat_stack::~Dat_stack()
     }
 }
 
-int &Dat_stack::get_size()
+unsigned int &Dat_stack::get_size()
 {
     return size;
 }
 
-int &Dat_stack::get_data(const int &index)
+unsigned int &Dat_stack::get_data(const unsigned int &index)
 {
     return datStack[index];
 }
 
-void Dat_stack::set_data(const int &index, const int &data)
+void Dat_stack::set_data(const unsigned int &index, const unsigned int &data)
 {
     datStack[index] = data;
 }
 
-void Dat_stack::set_size(const int &_size)
+void Dat_stack::set_size(const unsigned int &_size)
 {
     if (datStack == nullptr)
     {
         size = _size;
-        datStack = new int [size];
+        datStack = new unsigned int [size];
     }
 }
 

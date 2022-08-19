@@ -4,67 +4,46 @@
 //int *sizes;
 //Dat_stack *datTable;
 
-Dat_table::Dat_table(const int &_width, const int *_sizes)
+Dat_table::~Dat_table()
+{
+    if (sizes!=nullptr)
+    {
+        delete [] sizes;
+        sizes = nullptr;
+    }
+    if (datTable != nullptr)
+    {
+        delete [] datTable;
+        datTable = nullptr;
+    }
+}
+
+void Dat_table::init(const unsigned int &_width, const unsigned int *_sizes)
 {
     width = _width;
-    sizes = new int[width];
-    for (int i = 0; i < width; i++)
+    sizes = new unsigned int[width];
+    for (unsigned int i = 0; i < width; i++)
     {
         sizes[i] = _sizes[i];
     }
     datTable = new Dat_stack[width];
-    for (int i = 0; i < width; i++)
+    for (unsigned int i = 0; i < width; i++)
     {
         datTable[i].set_size(sizes[i]);
     }
 }
 
-Dat_table::~Dat_table()
+void Dat_table::set_table(const unsigned int &_width, const unsigned int &index, const unsigned int &data)
 {
-    if (sizes!=nullptr)
-    {
-        delete [] Sizes;
-        Sizes = nullptr;
-    }
-    if (Dat_table!=nullptr){delete[]Dat_table;Dat_table=nullptr;}
+    datTable[_width].set_data(index, data);
 }
 
-void dat_table::set_table(const int &width, const int &index, const int &data)
+unsigned int &Dat_table::get_table(const unsigned int &_width, const unsigned int &index)
 {
-    Dat_table[width].set_data(index,data);
+    return datTable[_width].get_data(index);
 }
 
-int &dat_table::get_table(const int &width, const int &index)
+unsigned int &Dat_table::get_size(const unsigned int &_width)
 {
-    return Dat_table[width].get_data(index);
-}
-
-int &dat_table::get_size(const int &width)
-{
-    return Dat_table[width].get_size();
-}
-
-state &dat_table::get_state(const int &width, const int &index)
-{
-    return Dat_table[width].get_state(index);
-}
-
-void dat_table::finish(const int &width, const int &index, const int &range_from, const int &range_to)
-{
-    Dat_table[width].finish(index,range_from,range_to);
-}
-
-void dat_table::reset(const int &width, const int &index)
-{
-    Dat_table[width].reset(index);
-}
-
-int &dat_table::get_range_from(const int &width, const int &index)
-{
-    return Dat_table[width].get_range_from(index);
-}
-
-int &dat_table::get_range_to(const int &width, const int &index)
-{
-    return Dat_table[width].get_range_to(index);
+    return datTable[_width].get_size();
 }

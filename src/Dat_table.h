@@ -4,14 +4,15 @@
 
 class Dat_table
 {
-    int width;
-    int *sizes;
+    unsigned int width;
+    unsigned int *sizes;
     Dat_stack *datTable;
 public:
-    Dat_table(const int &_width, const int *_sizes);
+    Dat_table(){}
     ~Dat_table();
-    void set_table(const int &_width, const int &index, const int &data);
-    int &get_table(const int &_width, const int &index);
-    int &get_size(const int &_width);
+    void init(const unsigned int &_width, const unsigned int *_sizes);
+    void set_table(const unsigned int &_width, const unsigned int &index, const unsigned int &data);
+    unsigned int &get_table(const unsigned int &_width, const unsigned int &index);
+    unsigned int &get_size(const unsigned int &_width);
 };
-
+#endif
