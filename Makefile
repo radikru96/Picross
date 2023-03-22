@@ -1,8 +1,8 @@
 NAME = bin/Picross
 
-SRCS = src/Brck.cpp src/main.cpp src/Picross.cpp src/Table.cpp
+SRCS = src/Brick.cpp src/main.cpp src/Picross.cpp src/Field.cpp src/Data.cpp src/Pixel.cpp src/DataStack.cpp
 
-HEADER = src/Brck.h src/Picross.h src/Table.h
+HEADER = src/Brick.h src/Picross.h src/Field.h src/Data.h src/Pixel.h src/DataStack.h
 
 OBJ = $(patsubst src/%.cpp, obj/%.o, $(SRCS))
 

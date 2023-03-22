@@ -15,9 +15,12 @@ private:
 public:
     Picross(const unsigned int& _x, const unsigned int& _y, unsigned int *vert_sizes, unsigned int *hori_sizes );
     ~Picross();
-    void set_data_vert(const unsigned int &_width, const unsigned int &data);
-    void set_data_hori(const unsigned int &_width, const unsigned int &data);
+    void set_data_vert(const unsigned int &_width, const unsigned int *data);
+    void set_data_hori(const unsigned int &_width, const unsigned int *data);
     void start();
+    void init();
+    unsigned int findBY( const unsigned int &_x, const unsigned int &_index );
+
 };
 
 #endif
