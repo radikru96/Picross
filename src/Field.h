@@ -15,5 +15,7 @@ public:
 	void init(const unsigned int& _x, const unsigned int& _y);
 	const Pixel& getPix( const unsigned int& _x, const unsigned int& _y) const;
 	void setPix( const unsigned int& _x, const unsigned int& _y, const Color& _color);
+	const unsigned int &getX();
+	const unsigned int &getY();
 };
 #endif

@@ -29,3 +29,11 @@ const Pixel& Field::getPix(const unsigned int& _x, const unsigned int& _y) const
 void Field::setPix(const unsigned int& _x, const unsigned int& _y, const Color& _color){
 	arr[_x][_y] = _color;
 }
+
+const unsigned int &Field::getX(){
+	return x;
+}
+
+const unsigned int &Field::getY(){
+	return y;
+}

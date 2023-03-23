@@ -8,11 +8,11 @@ Brick::Brick(const Color &_color, const unsigned int &_size,
 	end = _end;
 }
 
-unsigned int &Brick::getBegin() const {
+const unsigned int &Brick::getBegin() const {
 	return begin;
 }
 
-unsigned int &Brick::getEnd() const {
+const unsigned int &Brick::getEnd() const {
 	return end;
 }
 
@@ -24,14 +24,9 @@ void Brick::setEnd(unsigned int &_end){
 	end = _end;
 }
 
-void Brick::stepUp( const unsigned int &_value ){
+void Brick::move( const unsigned int &_value ){
 	begin += _value;
 	end += _value;
-}
-
-void Brick::stepDown( const unsigned int &_value ){
-	begin -= _value;
-	end -= _value;
 }
 
 const Brick &Brick::operator=(const Brick& other){
