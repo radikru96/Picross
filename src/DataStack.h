@@ -14,7 +14,8 @@ public:
     
     DataStack(const unsigned int &_size){
         size = _size;
-        arr = new T [size];
+        if (size > 0)
+            arr = new T [size];
     }
     
     ~DataStack(){
@@ -40,7 +41,8 @@ public:
         if (arr == nullptr)
         {
             size = _size;
-            arr = new unsigned int [size];
+            if (size > 0)
+                arr = new T [size];
         }
     }
 };

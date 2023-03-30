@@ -7,7 +7,7 @@ HEADER = src/Brick.h src/Picross.h src/Field.h src/Data.h src/Pixel.h src/DataSt
 OBJ = $(patsubst src/%.cpp, obj/%.o, $(SRCS))
 
 C=g++
-FLAGS = -g -Wall
+FLAGS = -std=c++17 -g -Wall
 
 .PHONY : all clean fclean re folders
 

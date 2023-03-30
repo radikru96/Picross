@@ -6,7 +6,7 @@
 class Pixel {
 public:
 	Pixel(const Color &_color = Color::white);
-	~Pixel();
+	virtual ~Pixel(){}
 	void setColor(const Color& _color = Color::white);
 	const Color& getColor() const;
 	virtual const Pixel& operator=(const Pixel& other);

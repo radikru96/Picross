@@ -16,17 +16,19 @@ const unsigned int &Brick::getEnd() const {
 	return end;
 }
 
-void Brick::setBegin(unsigned int &_begin){
+void Brick::setBegin(const unsigned int &_begin){
 	begin = _begin;
 }
 
-void Brick::setEnd(unsigned int &_end){
+void Brick::setEnd(const unsigned int &_end){
 	end = _end;
 }
 
-void Brick::move( const unsigned int &_value ){
-	begin += _value;
-	end += _value;
+void Brick::move( const int &_value ){
+	if (begin+_value >= 0){
+		begin += _value;
+		end += _value;
+	}
 }
 
 const Brick &Brick::operator=(const Brick& other){

@@ -11,10 +11,8 @@ protected:
     unsigned int width;
     unsigned int *sizes;
     DataStack<T> *dataTable;
-    Field *field;
 public:
-    DataTable(Field *_field) : field(_field){}
-    ~DataTable(){
+    virtual ~DataTable(){
         if (sizes!=nullptr)
         {
             delete [] sizes;

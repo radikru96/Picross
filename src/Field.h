@@ -9,13 +9,13 @@ private:
 	unsigned int x;
 	unsigned int y;
 public:
-	Field(){}
+	// Field(){}
 	Field(const unsigned int& _x, const unsigned int& _y);
 	~Field();
 	void init(const unsigned int& _x, const unsigned int& _y);
-	const Pixel& getPix( const unsigned int& _x, const unsigned int& _y) const;
+	const Color& getColor( const unsigned int& _x, const unsigned int& _y) const;
 	void setPix( const unsigned int& _x, const unsigned int& _y, const Color& _color);
-	const unsigned int &getX();
-	const unsigned int &getY();
+	const unsigned int &getX() const;
+	const unsigned int &getY() const;
 };
 #endif

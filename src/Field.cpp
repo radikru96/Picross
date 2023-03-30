@@ -22,18 +22,18 @@ void Field::init(const unsigned int& _x, const unsigned int& _y){
 		arr[i] = new Pixel[y];
 }
 
-const Pixel& Field::getPix(const unsigned int& _x, const unsigned int& _y) const{
-    return arr[_x][_y];
+const Color& Field::getColor(const unsigned int& _x, const unsigned int& _y) const{
+    return arr[_x][_y].getColor();
 }
 
 void Field::setPix(const unsigned int& _x, const unsigned int& _y, const Color& _color){
 	arr[_x][_y] = _color;
 }
 
-const unsigned int &Field::getX(){
+const unsigned int &Field::getX() const{
 	return x;
 }
 
-const unsigned int &Field::getY(){
+const unsigned int &Field::getY() const{
 	return y;
 }
