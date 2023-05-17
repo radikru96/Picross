@@ -1,6 +1,6 @@
 NAME = bin/Picross
 
-SRCS = src/Brick.cpp src/main.cpp src/Picross.cpp src/Field.cpp src/Data.cpp src/Pixel.cpp src/DataStack.cpp src/BrickField.cpp src/DataField.cpp
+SRCS = src/Brick.cpp src/main.cpp src/Picross.cpp src/Field.cpp src/Data.cpp src/Pixel.cpp src/BrickField.cpp src/DataField.cpp
 
 HEADER = src/Brick.h src/Picross.h src/Field.h src/Data.h src/Pixel.h src/DataStack.h src/BrickField.h src/DataField.h
 
