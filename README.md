@@ -1,2 +1,2 @@
-# Picross
-The Nonogram Solver
+# QtPicross
+The Nonogram Solver created in Qt.
