@@ -4,8 +4,9 @@
 #include "Brick.h"
 #include "DataTable.h"
 #include "Field.h"
+#include <iostream>
 
-class BrickField : public DataTable<Brick> {
+class BrickField : public DataTable {
 private:
 	Field &field;
 public:

@@ -9,7 +9,6 @@ private:
 	unsigned int x;
 	unsigned int y;
 public:
-	// Field(){}
 	Field(const unsigned int& _x, const unsigned int& _y);
 	~Field();
 	void init(const unsigned int& _x, const unsigned int& _y);

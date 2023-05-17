@@ -1,26 +1,24 @@
 #ifndef PICROSS_H
 #define PICROSS_H
-#include "Table.h"
-#include "Brck.h"
-#include "Dat_table.h"
+#include "DataField.h"
+#include "BrickField.h"
+#include <string>
 
-class Picross
-{
+class Picross {
 private:
-    Dat_table vert;
-    Dat_table hori;
-    Table table;
-    Brck *bricks;
-    unsigned int x,y,brckNum;
+    Field &field;
+    DataField &dataField;
+    BrickField &brickField;
+    std::string debug;
+    bool check();
+    bool buildBlock( const uint &_width, const uint &_index, const uint &_begin );
+    bool clear( const uint &_width, const uint &_begin, const uint &_end, const Color &_color );
+    bool brickEqualData();
 public:
-    Picross(const unsigned int& _x, const unsigned int& _y, unsigned int *vert_sizes, unsigned int *hori_sizes );
+    Picross( Field &_field, DataField &_dataField, BrickField &_brickField );
     ~Picross();
-    void set_data_vert(const unsigned int &_width, const unsigned int *data);
-    void set_data_hori(const unsigned int &_width, const unsigned int *data);
-    void start();
-    void init();
-    unsigned int findBY( const unsigned int &_x, const unsigned int &_index );
-
+    bool start();
+    void tabPrint();
 };
 
 #endif

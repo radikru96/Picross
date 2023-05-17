@@ -13,9 +13,11 @@ public:
     }
     
     DataStack(const unsigned int &_size){
-        size = _size;
-        if (size > 0)
-            arr = new T [size];
+        if (_size > 0)
+            size = _size;
+        else
+            size = 1;
+        arr = new T [size];
     }
     
     ~DataStack(){
@@ -40,9 +42,11 @@ public:
     void setSize(const unsigned int &_size){
         if (arr == nullptr)
         {
-            size = _size;
-            if (size > 0)
-                arr = new T [size];
+            if (_size > 0)
+                size = _size;
+            else
+                size = 1;
+            arr = new T [size];
         }
     }
 };

@@ -1,63 +1,189 @@
 #include "Picross.h"
+#include <iostream>
 
-Picross::Picross(const unsigned int& _x, const unsigned int& _y, unsigned int *vert_sizes, unsigned int *hori_sizes )
-{
-    x = _x;
-    y = _y;
-    table.init(x,y);
-    vert.init(x, vert_sizes);
-    hori.init(y, hori_sizes);
-}
+Picross::Picross( Field &_field, DataField &_dataField, BrickField &_brickField )
+                        : field(_field), dataField(_dataField), brickField(_brickField) {}
 
-Picross::~Picross()
-{
-    delete[] bricks;
-    bricks = nullptr;
-}
+Picross::~Picross(){}
 
-void Picross::set_data_vert(const unsigned int &_width, const unsigned int *data)
-{
-    for (unsigned int i = 0; i < vert.get_size(_width); i++)
-    {
-        vert.set_table(_width,i,data[i]);
-    }
-}
-
-void Picross::set_data_hori(const unsigned int &_width, const unsigned int *data)
-{
-    for (unsigned int i = 0; i < hori.get_size(_width); i++)
-    {
-        hori.set_table(_width,i,data[i]);
-    }
-}
-
-void Picross::start()
-{
-}
-
-void Picross::init()
-{
-    unsigned int brckNum = 0;
-    for (unsigned int i = 0; i < x; i++)
-        brckNum += vert.get_size(i);
-    bricks = new Brck*[brckNum];
-    unsigned int brckN = 0;
-    for (unsigned int i = 0; i < x; i++){
-        for (unsigned int j = 0; j < vert.get_size(i); j++)
-        {
-            bricks[brckN] = new Brck(vert.get_table(i,j),i,
+bool Picross::start() {
+    if ( !brickField.startPos() || !brickEqualData() )
+        return false;
+    uint j = 0;
+    for ( uint i = 0; i < field.getX(); ) {
+        for ( ; j < dataField.getSize(i);) {
+            if ( j == 0 && dataField.getData(i,j).getBegin() > 0 ) {
+                if ( !clear ( i, 0, dataField.getData(i,j).getBegin()-1, dataField.getData(i,j).getColor() ) ) {
+                    if ( i == 0 )
+                        return false;
+                    i--;
+                    j = dataField.getSize(i) - 1;
+                    dataField.getData(i,j).setBegin( dataField.getData(i,j).getBegin() + 1 );
+                    continue;
+                }
+            }
+            else if ( j > 0 ) {
+                if ( !clear( i, dataField.getData(i,j-1).getEnd()+1, dataField.getData(i,j).getBegin()-1, dataField.getData(i,j).getColor() ) ) {
+                    j--;
+                    dataField.getData(i,j).setBegin( dataField.getData(i,j).getBegin() + 1 );
+                    continue;
+                }
+            }
+            if ( buildBlock( i, j, dataField.getData(i,j).getBegin() ) ) {
+                j++;
+                if ( j < dataField.getSize(i) )
+                    dataField.getData(i,j).setBegin( dataField.getData(i,j-1).getEnd() + 2 );
+                else if ( i+1 < field.getX() )
+                    dataField.getData(i+1,0).setBegin(0);
+            }
+            else {
+                if ( dataField.getData(i,j).getBegin() + dataField.getData(i,j).getSize() < field.getY() ){}
+                else if ( j > 0 )
+                    j--;
+                else if ( i > 0 ) {
+                    i--;
+                    j = dataField.getSize(i) - 1;
+                }
+                else
+                    return check();
+                dataField.getData(i,j).setBegin( dataField.getData(i,j).getBegin() + 1 );
+            }
         }
-        
+        if ( clear( i, dataField.getData( i, dataField.getSize(i)-1 ).getEnd()+1
+                , field.getY()-1, dataField.getData( i, dataField.getSize(i)-1 ).getColor() ) ) {
+            i++;
+            j=0;
+        }
+        else {
+            if ( j > 0 )
+                j--;
+            else if ( i > 0) {
+                i--;
+                j = dataField.getSize(i) - 1;
+            }
+            else
+                return false;
+            dataField.getData(i,j).setBegin( dataField.getData(i,j).getBegin() + 1 );
+        }
     }
-    
+    return check();
 }
 
-unsigned int findBY( const unsigned int& _x, const unsigned int& _index )
-{
-    unsigned int value = 0;
-    for (unsigned int i = 0; i <= _index; i++)
-    {
-        
+bool Picross::check(){
+    for (uint i = 0; i < field.getX(); i++){
+        if (!dataField.check(i))
+            return false;
     }
-    
+    return true;
 }
+
+bool Picross::buildBlock( const uint &_width, const uint &_index, const uint &_begin ) {
+    if ( _begin + dataField.getData( _width, _index ).getSize() > field.getY() )
+        return false;
+    for ( uint i = 0; i < dataField.getData( _width, _index ).getSize(); i++ ){
+        if ( field.getColor( _width, _begin+i ) == dataField.getData( _width, _index ).getColor() )
+            continue;
+        if ( _width > 0 && field.getColor( _width-1, _begin+i ) == dataField.getData( _width, _index ).getColor() )
+            return false;
+        for ( uint j = 0; j < brickField.getSize(_begin+i); j++ ){
+            if ( brickField.getData(_begin+i,j).getBegin() > _width ){
+                brickField.move( _begin+i, j, (int)_width - brickField.getData(_begin+i,j).getBegin() );
+                break; 
+            }
+        }
+        if ( field.getColor( _width, _begin+i ) != dataField.getData( _width, _index ).getColor() )
+            return false;
+    }
+    if ( _begin + dataField.getData( _width, _index ).getSize() < field.getY() ) {
+        if ( !clear( _width, _begin + dataField.getData( _width, _index ).getSize()
+                , _begin + dataField.getData( _width, _index ).getSize(), dataField.getData( _width, _index ).getColor() ) )
+            return false;
+    }
+    dataField.getData( _width, _index ).setBegin( _begin );
+    dataField.getData( _width, _index ).setEnd( _begin + dataField.getData( _width, _index ).getSize() - 1 );
+    if ( _index < dataField.getSize(_width)-1 && dataField.getData( _width, _index ).getEnd() > dataField.getData( _width, _index+1 ).getBegin() )
+        dataField.getData( _width, _index+1 ).setBegin( dataField.getData( _width, _index ).getEnd() + 2 );
+    return true;
+}
+
+bool Picross::clear( const uint &_width, const uint &_begin, const uint &_end, const Color &_color ){
+    for ( uint i = _begin; i <= _end; i++ ) {
+        if ( field.getColor( _width, i ) == _color ) {
+            if ( _width > 0 && field.getColor( _width-1, i ) == _color )
+                return false;
+            for ( uint j = 0; j < brickField.getSize(i); j++ ) {
+                if ( brickField.getData(i,j).getBegin() == _width ) {
+                    if ( !brickField.move( i, j, 1 ) )
+                        return false;
+                    break;
+                }
+            }
+            if ( field.getColor( _width, i ) == _color )
+                return false;
+        }
+    }
+    return true;
+}
+
+bool Picross::brickEqualData(){
+    uint bufData = 0, bufBrick = 0;
+    for ( uint i = 0; i < field.getX(); i++ )
+        for ( uint j = 0; j < dataField.getSize(i); j++ )
+            bufData += dataField.getData(i,j).getSize();
+    for ( uint i = 0; i < field.getY(); i++ )
+        for ( uint j = 0; j < brickField.getSize(i); j++ )
+            bufBrick += brickField.getData(i,j).getSize();
+    return bufData == bufBrick;
+}
+
+void Picross::tabPrint(){
+    uint xShift = 0;
+    uint yShift = 0;
+    for (uint i = 0; i < field.getY(); ++i)
+    {
+        if ( xShift < brickField.getSize(i) )
+            xShift = brickField.getSize(i);
+    }
+    for (uint i = 0; i < field.getX(); ++i)
+    {
+        if ( yShift < dataField.getSize(i) )
+            yShift = dataField.getSize(i);
+    }
+    for (uint i = 0; i < yShift; ++i)
+    {
+        for (uint j = 0; j < xShift; ++j)
+        {
+            std::cout << "  ";
+        }
+        for (uint j = 0; j < field.getX(); ++j)
+        {
+            if ( i < dataField.getSize(j) )
+                std::cout << dataField.getData(j,i).getSize() << " ";
+            else
+                std::cout << "  ";
+        }
+        std::cout << std::endl;
+    }
+    for (uint i = 0; i < field.getY(); ++i)
+    {
+        for (uint j = 0; j < xShift; ++j)
+        {
+            if ( j < brickField.getSize(i) )
+                std::cout << brickField.getData(i,j).getSize() << " ";
+            else
+                std::cout << "  ";
+        }
+        for (uint j = 0; j < field.getX(); ++j)
+        {
+            switch ( field.getColor(j,i) ){
+            case Color::white:
+                std::cout << "..";
+                break;
+            case Color::black:
+                std::cout << "8L";
+                break;
+            }
+        }
+        std::cout << std::endl;
+    }
+} 
