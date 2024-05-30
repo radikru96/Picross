@@ -149,16 +149,19 @@ void Picross::tabPrint(){
         if ( yShift < dataField.getSize(i) )
             yShift = dataField.getSize(i);
     }
+    std::cout << std::endl;
     for (uint i = 0; i < yShift; ++i)
     {
-        for (uint j = 0; j < xShift; ++j)
-        {
+        std::cout.width(xShift*2+field.getX()/10);
             std::cout << "  ";
-        }
         for (uint j = 0; j < field.getX(); ++j)
         {
-            if ( i < dataField.getSize(j) )
-                std::cout << dataField.getData(j,i).getSize() << " ";
+            if ( i < dataField.getSize(j) ) {
+                if ( dataField.getData(j,i).getSize() > 9 )
+                    std::cout << dataField.getData(j,i).getSize();
+                else
+                    std::cout << dataField.getData(j,i).getSize() << " ";
+            }
             else
                 std::cout << "  ";
         }
@@ -166,13 +169,13 @@ void Picross::tabPrint(){
     }
     for (uint i = 0; i < field.getY(); ++i)
     {
-        for (uint j = 0; j < xShift; ++j)
+        std::stringstream out;
+        for (uint j = 0; j < brickField.getSize(i); ++j)
         {
-            if ( j < brickField.getSize(i) )
-                std::cout << brickField.getData(i,j).getSize() << " ";
-            else
-                std::cout << "  ";
+            out << std::to_string( brickField.getData(i,j).getSize() ) << " ";
         }
+        std::cout.width(xShift*2+field.getX()/10);
+        std::cout << out.str();
         for (uint j = 0; j < field.getX(); ++j)
         {
             switch ( field.getColor(j,i) ){
@@ -180,7 +183,7 @@ void Picross::tabPrint(){
                 std::cout << "..";
                 break;
             case Color::black:
-                std::cout << "8L";
+                std::cout << (char)0xB2 << (char)0xB2;
                 break;
             }
         }

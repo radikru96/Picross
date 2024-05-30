@@ -10,10 +10,9 @@
 #define GD getData
 #define SS setSize
 
-void tabPrint( const Field &_field, const DataField &_dataField, const BrickField &_brickField);
-
 int main(int argc, char const *argv[])
 {
+	// Field field(3,3);
 	// unsigned int arr[] = {1,1,1};
 	// DataField dataField(field,3,arr);
 	// dataField.getData(0,0).setSize(1);
@@ -183,61 +182,9 @@ int main(int argc, char const *argv[])
 	BF.GD(28,0).SS(9); BF.GD(28,1).SS(2); BF.GD(28,2).SS(2); BF.GD(28,3).SS(12);
 	BF.GD(29,0).SS(10); BF.GD(29,1).SS(1); BF.GD(29,2).SS(1); BF.GD(29,3).SS(12);
 
-	tabPrint(field,dataField,brickField);
 	Picross picrss(field,dataField,brickField);
+	picrss.tabPrint();
 	picrss.start();
-	tabPrint(field,dataField,brickField);
+	picrss.tabPrint();
 	return 0;
-}
-
-void tabPrint( const Field &_field, const DataField &_dataField, const BrickField &_brickField){
-	unsigned int xShift = 0;
-	unsigned int yShift = 0;
-	for (unsigned int i = 0; i < _field.getY(); ++i)
-	{
-		if ( xShift < _brickField.getSize(i) )
-			xShift = _brickField.getSize(i);
-	}
-	for (unsigned int i = 0; i < _field.getX(); ++i)
-	{
-		if ( yShift < _dataField.getSize(i) )
-			yShift = _dataField.getSize(i);
-	}
-	for (unsigned int i = 0; i < yShift; ++i)
-	{
-		for (unsigned int j = 0; j < xShift; ++j)
-		{
-			std::cout << "  ";
-		}
-		for (unsigned int j = 0; j < _field.getX(); ++j)
-		{
-			if ( i < _dataField.getSize(j) )
-				std::cout << _dataField.getData(j,i).getSize() << " ";
-			else
-				std::cout << "  ";
-		}
-		std::cout << std::endl;
-	}
-	for (unsigned int i = 0; i < _field.getY(); ++i)
-	{
-		for (unsigned int j = 0; j < xShift; ++j)
-		{
-			if ( j < _brickField.getSize(i) )
-				std::cout << _brickField.getData(i,j).getSize() << " ";
-			else
-				std::cout << "  ";
-		}
-		for (unsigned int j = 0; j < _field.getX(); ++j)
-		{
-			switch ( _field.getColor(j,i) ){
-			case Color::white:
-				std::cout << "..";
-				break;
-			case Color::black:
-				std::cout << "8L";
-				break;
-			}
-		}
-		std::cout << std::endl;
-	}
 }

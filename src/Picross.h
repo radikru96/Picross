@@ -2,14 +2,14 @@
 #define PICROSS_H
 #include "DataField.h"
 #include "BrickField.h"
-#include <string>
+#include <iomanip>
+#include <sstream>
 
 class Picross {
 private:
     Field &field;
     DataField &dataField;
     BrickField &brickField;
-    std::string debug;
     bool check();
     bool buildBlock( const uint &_width, const uint &_index, const uint &_begin );
     bool clear( const uint &_width, const uint &_begin, const uint &_end, const Color &_color );
